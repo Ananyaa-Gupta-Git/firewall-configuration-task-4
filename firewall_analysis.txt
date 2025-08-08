@@ -1,0 +1,95 @@
+# Firewall Analysis Report
+# Based on Windows Defender Firewall Configuration Task
+
+## Initial System State Analysis
+
+### Network Services Discovery
+Command: netstat -an | findstr :23
+Results found:
+- TCP 0.0.0.0:23130 -> 0.0.0.0 LISTENING
+- TCP 0.0.0.0:23134 -> 0.0.0.0 LISTENING  
+- TCP [::]:23130 -> [::]:0 LISTENING
+- TCP [::]:23134 -> [::]:0 LISTENING
+
+Analysis: System had services listening on ports 23130 and 23134 (not standard Telnet port 23)
+
+### Telnet Client Test
+Command: telnet localhost 23
+Result: 'telnet' is not recognized as an internal or external command
+
+Analysis: Telnet client is not installed on this Windows system, which is a good security practice as Telnet is inherently insecure.
+
+## Firewall Rule Implementation
+
+### Successfully Created Rules:
+
+1. **Block Telnet Port 23**
+   - Name: "Block Telnet Port 23"
+   - Profile: All (Domain, Private, Public)
+   - Action: Block
+   - Protocol: TCP
+   - Local Address: Any
+   - Remote Address: Any
+   - Status: Enabled
+
+2. **Allow SSH Port 22**
+   - Name: "Allow SSH Port 22" 
+   - Profile: All (Domain, Private, Public)
+   - Action: Allow
+   - Protocol: TCP
+   - Local Address: Any
+   - Remote Address: Any
+   - Status: Enabled
+
+## Existing Firewall Configuration Analysis
+
+### Inbound Rules Observed:
+- Multiple application-specific rules (adb.exe, BlueStacks, HitPaw applications, Java, etc.)
+- Mix of Allow and Block actions properly implemented
+- Rules span across different profiles (All, Public, Private)
+- Both TCP and UDP protocols configured
+
+### Outbound Rules Observed:
+- Extensive Microsoft application rules
+- Proper application-level granular control
+- All rules showing "Allow" action (standard for outbound traffic)
+- Comprehensive coverage of Windows system components
+
+## Security Observations
+
+### Positive Security Practices:
+1. Telnet client not installed by default
+2. Comprehensive application-level firewall rules
+3. Proper rule categorization by profile
+4. Both inbound and outbound traffic management
+
+### Implemented Security Improvements:
+1. Blocked insecure Telnet protocol (port 23)
+2. Allowed secure SSH access (port 22)
+3. Documented rule creation process
+
+## Task Completion Assessment
+
+✅ Successfully opened Windows Firewall Advanced Settings
+✅ Documented initial firewall state
+✅ Created block rule for Telnet (port 23)
+✅ Created allow rule for SSH (port 22)  
+✅ Verified rule implementation in firewall interface
+✅ Analyzed existing security configuration
+✅ Documented all steps with screenshots
+
+## Key Learning Outcomes
+
+1. **Practical Firewall Management**: Successfully navigated Windows Firewall GUI
+2. **Security Protocol Understanding**: Learned difference between Telnet (insecure) and SSH (secure)
+3. **Rule Configuration**: Understood inbound vs outbound rule concepts
+4. **System Analysis**: Gained insight into existing firewall configurations
+5. **Documentation Skills**: Created comprehensive record of changes
+
+## Recommendations for Production Environment
+
+1. Keep Telnet client uninstalled
+2. Regularly audit firewall rules
+3. Use principle of least privilege
+4. Monitor firewall logs for suspicious activity
+5. Maintain documentation of all rule changes
