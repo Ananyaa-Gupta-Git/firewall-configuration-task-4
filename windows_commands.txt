@@ -1,0 +1,46 @@
+# windows_commands.txt
+# Windows Firewall Commands Used in Task
+
+# 1. Opening Windows Firewall Advanced Settings
+# Method 1: Run dialog
+Win + R → wf.msc → Enter
+
+# Method 2: Control Panel
+Control Panel → System and Security → Windows Defender Firewall → Advanced Settings
+
+# 2. PowerShell commands for firewall management
+# List inbound firewall rules
+Get-NetFirewallRule | Where-Object {$_.Direction -eq "Inbound"} | Select-Object DisplayName, Enabled, Action
+
+# List outbound firewall rules  
+Get-NetFirewallRule | Where-Object {$_.Direction -eq "Outbound"} | Select-Object DisplayName, Enabled, Action
+
+# 3. Network testing commands
+# Check listening ports
+netstat -an | findstr :23
+netstat -an | findstr :22
+
+# Test Telnet connection (should fail when blocked)
+telnet localhost 23
+
+# 4. Export firewall configuration (backup)
+netsh advfirewall export "C:\firewall_backup.wfw"
+
+# 5. GUI Steps for creating rules:
+# Block Telnet (Port 23):
+# - Right-click "Inbound Rules" → New Rule
+# - Select "Port" → Next
+# - Select "TCP" → Specific local ports: 23
+# - Select "Block the connection" → Next  
+# - Check all profiles (Domain, Private, Public) → Next
+# - Name: "Block Telnet Port 23" → Finish
+
+# Allow SSH (Port 22):
+# - Right-click "Inbound Rules" → New Rule
+# - Select "Port" → Next
+# - Select "TCP" → Specific local ports: 22
+# - Select "Allow the connection" → Next
+# - Check all profiles (Domain, Private, Public) → Next  
+# - Name: "Allow SSH Port 22" → Finish
+
+---
