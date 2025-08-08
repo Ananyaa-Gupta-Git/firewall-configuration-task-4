@@ -91,11 +91,9 @@ netsh advfirewall export "firewall_backup.wfw"
 ## Files in Repository
 ```
 ├── README.md                              # This documentation
-├── screenshots/                           # All task screenshots
-├── commands/                              # Command documentation
-│   └── windows_commands.txt               # All Windows commands used
-└── configuration/                         # Configuration notes
-    └── firewall_analysis.txt              # Analysis of firewall behavior
+├── screenshots/                           # All task screenshots                           
+├──windows_commands.txt               # All Windows commands used
+├──firewall_analysis.txt              # Analysis of firewall behavior
 ```
 
 ## Interview Questions Preparation
